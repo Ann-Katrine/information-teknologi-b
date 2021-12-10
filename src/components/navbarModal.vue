@@ -7,13 +7,13 @@
             <nav id="">
                 <ul class="menuModal">
                     <li>
-                        <a href="#hero" class="navOverskift">IntelRobotics</a>
+                        <a href="#hero" @click="closeNavbar()" class="navOverskift">IntelRobotics</a>
                     </li>
                     <li>
-                        <a href="#produkt" @click="test()" class="underOverskift">Produkt</a>
+                        <a href="#produkt" @click="closeNavbar()" class="underOverskift">Produkt</a>
                     </li>
                     <li>
-                        <a href="#kontakt" class="underOverskift">Kontakt</a>
+                        <a href="#kontakt" @click="closeNavbar()" class="underOverskift">Kontakt</a>
                     </li>
                     <li>
                         <select>
