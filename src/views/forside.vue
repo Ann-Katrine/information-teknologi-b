@@ -3,23 +3,38 @@
         <div id="forside">
             <nav id="navbar">
                 <ul class="menu">
-                    <li>
-                        <a href="#hero" class="navOverskift">IntelRobotics</a>
-                    </li>
+                    <div>
+                      <li>
+                          <a href="#hero" class="navOverskift">IntelRobotics</a>
+                      </li>
+                      <li v-show="showNotNavbarThings">
+                          <a href="#produkt" @click="test()" class="underOverskift">Produkt</a>
+                      </li>
+                      <li v-show="showNotNavbarThings">
+                          <a href="#kontakt" class="underOverskift">Kontakt</a>
+                      </li>
+                    </div>
+                    
                     <li v-show="showNotNavbarThings">
-                        <a href="#produkt" @click="test()" class="underOverskift">Produkt</a>
-                    </li>
-                    <li v-show="showNotNavbarThings">
-                        <a href="#kontakt" class="underOverskift">Kontakt</a>
-                    </li>
-                    <li v-show="showNotNavbarThings">
-                        <select>
-                          <option>Japansk                           
-                          </option>
-                          <option>Engelsk</option>
-                          <option>Canadisk</option>
-                          <option>Danmark</option>
-                        </select>
+                      <div class="dropdown">
+                          <button id="btnDropdown" class="dropbtn">
+                              {{ this.country }} <img :src="this.flag" class="dropdownImages">
+                          </button>
+                          <div class="dropdown-content">
+                              <a class="dropdownTekst" @click="add('Dansk','https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Flag_of_Denmark.svg/1200px-Flag_of_Denmark.svg.png' )">Dansk
+                                <img class="dropdownImages" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Flag_of_Denmark.svg/1200px-Flag_of_Denmark.svg.png">
+                              </a>
+                              <a class="dropdownTekst" @click="add('English','https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_the_United_Kingdom_%282-3%29.svg/1200px-Flag_of_the_United_Kingdom_%282-3%29.svg.png' )">English 
+                                <img class="dropdownImages" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_the_United_Kingdom_%282-3%29.svg/1200px-Flag_of_the_United_Kingdom_%282-3%29.svg.png">
+                              </a>
+                              <a class="dropdownTekst" @click="add('日本','https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Flag_of_Japan.svg/300px-Flag_of_Japan.svg.png' )">日本
+                                <img class="dropdownImages" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Flag_of_Japan.svg/300px-Flag_of_Japan.svg.png">
+                              </a>
+                              <a class="dropdownTekst" @click="add('Français','https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Flag_of_Quebec.svg/1200px-Flag_of_Quebec.svg.png' )">Français
+                                <img class="dropdownImages" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Flag_of_Quebec.svg/1200px-Flag_of_Quebec.svg.png">
+                              </a>
+                          </div>
+                      </div>
                     </li>
                     <li v-show="showNavbarButton" class="navbarBtn">
                       <button @click="openNavbar()" class="navbarBtn">
@@ -41,77 +56,14 @@
             <div ref="produkt" id="produkt" class="produktBoks">
                 <h2 class="underHeroOverskift">Produkter</h2>
 
-                <!-- <div class="threeProduktUnderBoks" v-for="product in allProduct" :key="product.id">
-                    <div class="produktBoks1">
-                      <button @click="openModal()" class="produktImages">
-                          <img :src="product." :alt="product." class="produktImages1">
+                <div class="threeProduktUnderBoks" >
+                    <div v-for="(product, index) in allProduct" :key="product.id" :class="produktImagesClass(index % 6)">
+                      <button @click="openModal(product.id)" class="produktImages">
+                          <img :src="product.path" :alt="product.pictureDescription" class="produktImages1">
 
                           <div class="produktBanner">
                               <p class="produktBannerOverskrift"> {{ product.name }} </p>
                               <p class="produktBannerOverskrift produktBannerTekstEnd"> {{ product.price }} </p>
-                          </div>
-                      </button>
-                    </div>
-                </div> -->
-                
-                <div class="threeProduktUnderBoks">
-                    <div class="produktBoks1">
-                      <button @click="openModal()" class="produktImages">
-                          <img src="https://www.universal-robots.com/media/1800754/universal-robots-plus-a-robotics-ecosystem.jpg" class="produktImages1">
-
-                          <div class="produktBanner">
-                              <p class="produktBannerOverskrift">produkt</p>
-                              <p class="produktBannerOverskrift produktBannerTekstEnd">pris</p>
-                          </div>
-                      </button>
-                    </div>
-                    <div class="produktBoks2">
-                        <button @click="openModal()" class="produktImages">
-                          <img src="https://www.universal-robots.com/img/product1.png" class="produktImages1">
-
-                          <div class="produktBanner">
-                              <p class="produktBannerOverskrift">produkt</p>
-                              <p class="produktBannerOverskrift produktBannerTekstEnd">pris</p>
-                          </div>
-                      </button>
-                    </div>
-                    <div class="produktBoks3">
-                        <button @click="openModal()" class="produktImages">
-                          <img src="https://www.universal-robots.com/img/product2.png" class="produktImages1">
-
-                          <div class="produktBanner">
-                              <p class="produktBannerOverskrift">produkt</p>
-                              <p class="produktBannerOverskrift produktBannerTekstEnd">pris</p>
-                          </div>
-                      </button>
-                    </div>
-                    <div class="produktBoks4">
-                        <button @click="openModal()" class="produktImages">
-                          <img src="https://www.universal-robots.com/img/product3.png" class="produktImages1">
-
-                          <div class="produktBanner">
-                              <p class="produktBannerOverskrift">produkt</p>
-                              <p class="produktBannerOverskrift produktBannerTekstEnd">pris</p>
-                          </div>
-                      </button>
-                    </div>
-                    <div class="produktBoks5">
-                        <button @click="openModal()" class="produktImages">
-                          <img src="https://www.universal-robots.com/img/product4.png" class="produktImages1">
-
-                          <div class="produktBanner">
-                              <p class="produktBannerOverskrift">produkt</p>
-                              <p class="produktBannerOverskrift produktBannerTekstEnd">pris</p>
-                          </div>
-                      </button>
-                    </div>
-                    <div class="produktBoks6">
-                        <button @click="openModal()" class="produktImages">
-                          <img src="https://www.universal-robots.com/img/product5.png" class="produktImages1">
-
-                          <div class="produktBanner">
-                              <p class="produktBannerOverskrift">produkt</p>
-                              <p class="produktBannerOverskrift produktBannerTekstEnd">pris</p>
                           </div>
                       </button>
                     </div>
@@ -120,8 +72,8 @@
             <div id="kontakt" class="kontaktBoks">
                 <h2 class="underHeroOverskift">Kontakt</h2>
 
-                <!-- <div class="threeKontaktUnderBoks" v-for="info in allKontaktInfo" :key="info.id">
-                    <div>
+                <!-- <div class="threeKontaktUnderBoks">
+                    <div class="threeKontaktTekstSpace" v-for="info in allKontaktInfo" :key="info.id">
                         <p class="kontaktUnderBoksOverskift"> {{ info.country }} {{ info.name }} </p>
                         <p class="kontaktUnderBoksUnderOverskrift"> {{ info.address }} </p>
                         <p class="kontaktUnderBoksUnderOverskrift"> {{ info.city }} og {{ info.postalcode }} </p>
@@ -129,35 +81,11 @@
                         <p class="kontaktUnderBoksUnderOverskrift"> {{ info.phonenumber }} </p>
                     </div>
                 </div> -->
-
-                <div class="threeKontaktUnderBoks">
-                    <div class="threeKontaktTekstSpace">
-                        <p class="kontaktUnderBoksOverskift">Danmark</p>
-                        <p class="kontaktUnderBoksUnderOverskrift">Vejnavn</p>
-                        <p class="kontaktUnderBoksUnderOverskrift">by og postnr</p>
-                        <p class="kontaktUnderBoksUnderOverskrift">mail</p>
-                        <p class="kontaktUnderBoksUnderOverskrift">telefon nr.</p>
-                    </div>
-                    <div class="threeKontaktTekstSpace">
-                        <p class="kontaktUnderBoksOverskift">Japan</p>
-                        <p class="kontaktUnderBoksUnderOverskrift">Vejnavn</p>
-                        <p class="kontaktUnderBoksUnderOverskrift">by og postnr</p>
-                        <p class="kontaktUnderBoksUnderOverskrift">mail</p>
-                        <p class="kontaktUnderBoksUnderOverskrift">telefon nr.</p>
-                    </div>
-                    <div class="threeKontaktTekstSpace">
-                        <p class="kontaktUnderBoksOverskift">Canada</p>
-                        <p class="kontaktUnderBoksUnderOverskrift">Vejnavn</p>
-                        <p class="kontaktUnderBoksUnderOverskrift">by og postnr</p>
-                        <p class="kontaktUnderBoksUnderOverskrift">mail</p>
-                        <p class="kontaktUnderBoksUnderOverskrift">telefon nr.</p>
-                    </div>
-                </div>
             </div>
         </div>
 
         <ShowProduct>
-          <div class="billdeBoks">
+          <!-- <div class="billdeBoks">
             <button class="billedeBtn">
               <ion-icon name="chevron-back-outline" class="close-ikon"></ion-icon>
             </button>
@@ -171,7 +99,7 @@
           </div>
           <h2 class="modalOverskrift modaltekstMellemrum">Projekt navn</h2>
           <h3 class="modalUnderOverskrift modaltekstMellemrum">Pris 100.000 kr.</h3>
-          <p class="modalBeardText">tester 1 2 3...</p>
+          <p class="modalBeardText">tester 1 2 3...</p> -->
         
           <!-- <div class="billdeBoks">
             <button>
@@ -185,11 +113,12 @@
           <div class="modal-circle-box">
             <div class="modal-circles"></div>
           </div>
-          <h2 class="modalOverskrift modaltekstMellemrum"> {{ oneProduct.name }}</h2>
-          <h3 class="modalUnderOverskrift modaltekstMellemrum"> {{ oneProduct.price }} </h3>
-          <p class="modalBeardText"> {{ oneProduct.description }} </p> -->
+          <h2 class="modalOverskrift modaltekstMellemrum"> {{ oneProduct[0].name }} </h2>
+          <h3 class="modalUnderOverskrift modaltekstMellemrum"> {{ oneProduct[0].price }} </h3>
+          <p class="modalBeardText"> {{ oneProduct[0].description }} </p> -->
         
         </ShowProduct>
+
         <Navbar></Navbar>
   </div>
 </template>
@@ -209,7 +138,9 @@
         oneProduct: [],
         showNavbarButton: false,
         showNotNavbarThings: true,
-        heroSite2: true
+        heroSite2: true,
+        country: "Dansk",
+        flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Flag_of_Denmark.svg/1200px-Flag_of_Denmark.svg.png"
       }
     },
     components:{
@@ -217,10 +148,9 @@
       Navbar
     },
     created(){
-      this.stickNavbar();
-      /*this.getAllProducs();
-      this.getAllKontaktInfo();
-      this.getOneProduct();*/
+      this.getAllProducs(),
+      this.getAllKontaktInfo(),
+      this.stickNavbar()
     },
     mounted(){
       this.$nextTick(function() {
@@ -260,10 +190,12 @@
         }, 0);
       },
       getAllProducs(){
+        console.log("hej");
         axios
-          .get('')
+          .get('http://83.151.132.176/api/products')
           .then(Response => {
-            this.allProduct = response.data
+            this.allProduct = Response.data
+            console.log(this.allProduct);
           })
           .catch(err => {
             console.log(err.toString());
@@ -271,28 +203,30 @@
       },
       getAllKontaktInfo(){
         axios
-          .get('',)
+          .get('http://83.151.132.176/api/branch')
           .then(Response => {
-            this.allKontaktInfo = response.data
+            this.allKontaktInfo = Response.data
+            console.log(this.allKontaktInfo);
           })
           .catch(err => {
             console.log(err.toString());
           })  
       },
-      getOneProduct(){
+      getOneProduct(id){
         axios
-          .get('')
+          .get('http://83.151.132.176/api/products/search/' + id)
           .then(Response => {
-            this.oneProduct = response.data
+            this.oneProduct = Response.data
+            console.log(this.oneProduct)
+            console.log(this.oneProduct[0].name)
           })
           .catch(err => {
             console.log(err.toString());
           })
       },
-      openModal(){ // åbner modalen der vister info om den enkenlte projekt
-        // console.log(id)
-        // this.getOneProjekt(id)
-        console.log("vriker")
+      openModal(id){ // åbner modalen der vister info om den enkenlte projekt
+      console.log(id);
+        this.getOneProduct(id)
         eventBus.$emit("showModal", true)
       },
       openNavbar(){
@@ -311,6 +245,30 @@
           this.showNavbarButton = false;
           this.showNotNavbarThings = true;
           this.heroSite2 = true;
+        }
+      },
+      add(value, flagVal){
+        this.country = value;
+        this.flag    = flagVal;
+      },
+      produktImagesClass(number){ // for at finde ud af hvilken class de skal have
+        if(number === 0){
+          return "produktBoks1";
+        }
+        else if(number === 1){
+          return "produktBoks2";
+        }
+        else if(number === 2){
+          return "produktBoks3";
+        }
+        else if(number === 3){
+          return "produktBoks4"
+        }
+        else if(number === 4){
+          return "produktBoks5"
+        }
+        else if(number === 5){
+          return "produktBoks6"
         }
       }
     }
@@ -334,7 +292,9 @@
   }
 
   .menu{
-    display: block;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
     width: 100%;
     height: 1em;
     padding: 0;
@@ -383,6 +343,54 @@
   .navbarBtn{
     background-color: transparent;
     border: none;
+  }
+
+  /* dropdown */
+  .dropdown{
+        overflow: hidden;
+    }
+    
+  .dropdown .dropbtn{
+      font-size: 21px;
+      border: none;
+      outline: none;
+      color: #000;
+      background-color: #968787; 
+      width: 7em;
+  }
+  .a {
+    font-size: 17px;
+  }
+
+  .dropdown-content{
+      font-size: 17px;
+      display: none;
+      position: absolute;
+      background-color: #968787; 
+      padding: 0 0 0 23px;  
+  }
+
+  .dropdown-content a:hover{
+      background-color: #ddd;
+      color: black;
+  }
+
+  .dropdown:hover .dropdown-content{
+      display: block;
+      width: 6em;
+  }
+
+  .dropdownTekst:nth-child(even) {
+    background-color: #A39393;
+  }
+
+  .dropdownTekst:nth-child(odd) {
+    background-color: #7D7070;
+  }
+
+  .dropdownImages{
+    width: 20px;
+    height: 15px;
   }
 
   /*************************************************/
@@ -511,9 +519,8 @@
 
   .threeKontaktUnderBoks{
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     justify-content: space-around;
+    flex-direction: row;
   }
 
   .kontaktUnderBoksOverskift{
