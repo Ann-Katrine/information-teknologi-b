@@ -58,7 +58,7 @@
 
                 <div class="threeProduktUnderBoks" >
                     <div v-for="(product, index) in allProduct" :key="product.id" :class="produktImagesClass(index % 6)">
-                      <button @click="openModal(product.id)" class="produktImages">
+                      <button @click="openModal(product.productnumber)" class="produktImages">
                           <img :src="product.path" :alt="product.pictureDescription" class="produktImages1">
 
                           <div class="produktBanner">
@@ -72,7 +72,7 @@
             <div id="kontakt" class="kontaktBoks">
                 <h2 class="underHeroOverskift">Kontakt</h2>
 
-                <!-- <div class="threeKontaktUnderBoks">
+                <div class="threeKontaktUnderBoks">
                     <div class="threeKontaktTekstSpace" v-for="info in allKontaktInfo" :key="info.id">
                         <p class="kontaktUnderBoksOverskift"> {{ info.country }} {{ info.name }} </p>
                         <p class="kontaktUnderBoksUnderOverskrift"> {{ info.address }} </p>
@@ -80,28 +80,12 @@
                         <p class="kontaktUnderBoksUnderOverskrift"> {{ info.e-mail }} </p>
                         <p class="kontaktUnderBoksUnderOverskrift"> {{ info.phonenumber }} </p>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
 
         <ShowProduct>
-          <!-- <div class="billdeBoks">
-            <button class="billedeBtn">
-              <ion-icon name="chevron-back-outline" class="close-ikon"></ion-icon>
-            </button>
-            <img src="https://www.universal-robots.com/media/1803486/ur3-collaborative-table-top-robot-filter1.jpg" class="billedeSize">
-            <button class="billedeBtn">
-              <ion-icon name="chevron-forward-outline" class="close-ikon"></ion-icon>
-            </button>
-          </div>
-          <div class="modal-circle-box">
-            <div class="modal-circles"></div>
-          </div>
-          <h2 class="modalOverskrift modaltekstMellemrum">Projekt navn</h2>
-          <h3 class="modalUnderOverskrift modaltekstMellemrum">Pris 100.000 kr.</h3>
-          <p class="modalBeardText">tester 1 2 3...</p> -->
-        
-          <!-- <div class="billdeBoks">
+          <div class="billdeBoks">
             <button>
               <ion-icon name="chevron-back-outline" class="close-ikon"></ion-icon>
             </button>
@@ -115,8 +99,7 @@
           </div>
           <h2 class="modalOverskrift modaltekstMellemrum"> {{ oneProduct[0].name }} </h2>
           <h3 class="modalUnderOverskrift modaltekstMellemrum"> {{ oneProduct[0].price }} </h3>
-          <p class="modalBeardText"> {{ oneProduct[0].description }} </p> -->
-        
+          <p class="modalBeardText"> {{ oneProduct[0].description }} </p>
         </ShowProduct>
 
         <Navbar></Navbar>
@@ -135,7 +118,9 @@
       return{
         allProduct: [],
         allKontaktInfo: [],
-        oneProduct: [],
+        oneProduct: [
+	{"name":"test", "price":1, "description":"fefew"}
+	],
         showNavbarButton: false,
         showNotNavbarThings: true,
         heroSite2: true,
@@ -212,8 +197,9 @@
             console.log(err.toString());
           })  
       },
-      getOneProduct(id){
-        axios
+      async getOneProduct(id){
+        console.log("jeg viker");
+	axios
           .get('http://83.151.132.176/api/products/search/' + id)
           .then(Response => {
             this.oneProduct = Response.data
@@ -224,10 +210,12 @@
             console.log(err.toString());
           })
       },
-      openModal(id){ // åbner modalen der vister info om den enkenlte projekt
-      console.log(id);
-        this.getOneProduct(id)
+      async openModal(id){ // åbner modalen der vister info om den enkenlte projekt
+        console.log(id);
+        await this.getOneProduct(id)
+	console.log("fehfbei")
         eventBus.$emit("showModal", true)
+	console.log("fefe")
       },
       openNavbar(){
         console.log("vriker");
